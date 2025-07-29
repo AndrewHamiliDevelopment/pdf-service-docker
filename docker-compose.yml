@@ -1,0 +1,23 @@
+services:
+  mongo:
+    tty: true
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - mongo-data:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
+    ports:
+      - "27017:27017"
+  node:
+    build: .
+    environment:
+      - MONGODB_URI=mongodb://root:password@mongo:27017/history_db?authSource=admin
+      - PORT=8000
+    ports:
+      - "1023:8000"
+    depends_on:
+      - mongo
+volumes:
+  mongo-data:
