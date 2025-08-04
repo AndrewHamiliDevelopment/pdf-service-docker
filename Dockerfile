@@ -1,4 +1,4 @@
-FROM node:20
+FROM debian:stable-slim
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
@@ -37,10 +37,14 @@ RUN apt-get update && apt-get install -y \
     libnss3 \
     lsb-release \
     xdg-utils \
+    nodejs \
+    npm \
     bash \
+    iproute2 \
     && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
-COPY package*.json ./
-RUN npm install --force
-COPY . .
-CMD ["node", "server.js"]
+COPY pdf-service/package*.json ./
+RUN npm -g install pm2 && npm install --force
+COPY pdf-service .
+EXPOSE 8000
+CMD ["pm2-runtime","start", "server.js"]
