@@ -20,6 +20,10 @@ services:
       volumes:
          - ./mongo-data:/data/db
          - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
+   redis:
+    image: redis:latest
+    volumes:
+      - ./redis-data:/data
    node-app:
       build: .
       container_name: pdf-service-api
@@ -33,3 +37,4 @@ services:
          - ./output:/output
       depends_on:
          - mongo
+         - redis
