@@ -27,14 +27,5 @@ services:
    node-app:
       build: .
       container_name: pdf-service-api
-      environment:
-         - MONGODB_URI=mongodb://root:password@mongo:27017/history_db?authSource=admin
-      stdin_open: true
-      command: pm2-runtime start server.js
-      ports:
-         - "8001:8000"
-      volumes:
-         - ./output:/output
       depends_on:
-         - mongo
          - redis
