@@ -24,6 +24,7 @@ services:
     image: redis:latest
     volumes:
       - ./redis-data:/data
+   command: redis-server --loglevel verbose
    node-app:
       tty: true
       build: .
