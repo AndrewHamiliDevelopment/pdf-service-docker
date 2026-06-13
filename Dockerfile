@@ -1,5 +1,7 @@
 FROM debian:stable-slim
 RUN apt-get update && apt-get install -y \
+    awscli \
+    chromium \
     wget \
     gnupg \
     ca-certificates \
@@ -43,8 +45,9 @@ RUN apt-get update && apt-get install -y \
     nano \
     && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
+RUN npm -g install pm2 --verbose
 COPY pdf-service/package*.json ./
-RUN npm -g install pm2 && npm install --force
+RUN npm install --force --verbose
 COPY pdf-service .
 EXPOSE 8000
-CMD ["pm2-runtime","start", "server.js"]
+CMD ["pm2-runtime","start", "ecosystem.config.js"]
