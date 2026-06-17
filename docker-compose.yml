@@ -79,7 +79,6 @@ services:
       environment:
          - MONGODB_URI=mongodb://root:password@mongo:27017/history_db?authSource=admin
       stdin_open: true
-      command: pm2-runtime start server.js
       ports:
          - "8001:8000"
       volumes:
